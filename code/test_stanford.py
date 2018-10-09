@@ -10,18 +10,18 @@ import logging
 from tqdm import tqdm
 import pickle
 
+
+nlp = StanfordCoreNLP(r'../stanford-corenlp-full-2018-10-05', lang='zh', memory='8g')
+
 def simple_test():
 
     # nlp = StanfordCoreNLP(r'../stanford-corenlp-full-2016-10-31/', lang='zh', quiet=False, logging_level=logging.DEBUG)
-    nlp = StanfordCoreNLP(r'../stanford-corenlp-full-2016-10-31/', lang='zh', memory='8g')
-
     # sentence = 'Guangdong University of Foreign Studies (GDUFS) is located in Guangzhou.'
     sentence = '帮我订一张明天上午到深圳的机票'
     print(nlp.ner(sentence))
-    nlp.close()
+
 
 def futher_test(need_parse=True, filename='corpus/example.test'):
-    nlp = StanfordCoreNLP(r'../stanford-corenlp-full-2016-10-31/', lang='zh')
 
     if need_parse:
         data = parse_data(filename)
@@ -77,17 +77,19 @@ def futher_test(need_parse=True, filename='corpus/example.test'):
 
     show_data()
 
-    nlp.close()
+
+def single_step(sentence):
+    return nlp.ner(sentence)
 
 
-def test():
-    from pycorenlp import StanfordCoreNLP
+def custom_test(filename='corpus/test'):
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+        with open('out', 'w') as fout:
+            for sentence in lines:
+                fout.write(str(nlp.ner(sentence)) + '\n')
+            fout.close()
+        f.close()
 
-    nlp = StanfordCoreNLP('http://localhost:9000')
-
-
-simple_test()
-# test()
-
-# futher_test(need_parse=False)
-
+custom_test()
+nlp.close()
