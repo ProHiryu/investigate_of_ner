@@ -74,7 +74,6 @@ PS : 最新版本已经有支持如下实体类别
 'PERCENT', 'ORDINAL', 'GPE', 'LOCATION', 'MISC', 'CITY', 'O', 'RELIGION', 'NATIONALITY', 'TITLE', 'ORGANIZATION', 'TIME', 'FACILITY', 'DEMONYM', 'MONEY', 'COUNTRY', 'STATE_OR_PROVINCE', 'DATE', 'CRIMINAL_CHARGE', 'PERSON', 'CAUSE_OF_DEATH', 'IDEOLOGY', 'NUMBER', 'URL', 'EMAIL'
 ```
 
-
 ## Chinese_models_for_SpaCy
 
 [reference](https://github.com/howl-anderson/Chinese_models_for_SpaCy)
@@ -86,3 +85,42 @@ PS : 最新版本已经有支持如下实体类别
 3. 建立链接 `spacy link zh_core_web_sm zh` (optional)
 
 > 效果有待检验
+
+## Duckling
+
+调用方法：
+
+```python
+from duckling import DucklingWrapper
+language = 'zh'
+
+try:
+    # languages in duckling are eg "de$core"
+    duckling = DucklingWrapper(language=language)
+except ValueError as e:  # pragma: no cover
+    raise Exception("Duckling error. {}".format(e))
+
+matches = duckling.parse('帮我订一张30号去上海的机票')
+print(matches)
+```
+
+Duckling还提供了parse_duration和parse_time的接口，初步具备识别口语化表达的能力，包括早上下午，上周六，明天后天，下周末等，如需使用还要详细调研
+
+## Transfer Learning for ner
+
+### Structure
+
+![](http://ww1.sinaimg.cn/large/e1ac6bd5ly1fwq2lqapizj21ba16ajzt.jpg)
+
+### Result
+
+boson数据集本身训练f1-score：> 65 (9000训练数据)
+boson数据集通过迁移学习f1-score：> 50 (800训练数据)
+
+是否可行需要更多的数据集和实际对话数据进行测试
+
+## Pretrained Language Model
+
+- [BERT](https://github.com/google-research/bert)(output 与传统词向量不同，数据较大)
+- [ELMo](https://allennlp.org/elmo)(最可行)
+- [GPT](https://github.com/huggingface/pytorch-openai-transformer-lm)
