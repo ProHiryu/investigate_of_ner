@@ -1,4 +1,4 @@
-# Model Test
+# Chinese NER Solutions
 
 - 是否支持中文
 - 准确率
