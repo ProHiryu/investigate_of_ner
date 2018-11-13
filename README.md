@@ -150,6 +150,7 @@ Duckling还提供了parse_duration和parse_time的接口，初步具备识别口
 ### Result
 
 boson数据集本身训练f1-score：> 65 (9000训练数据)
+
 boson数据集通过迁移学习f1-score：> 50 (800训练数据)
 
 是否可行需要更多的数据集和实际对话数据进行测试
