@@ -5,20 +5,27 @@
 from stanfordcorenlp import StanfordCoreNLP
 import numpy as np
 from utils import *
+import time
 
 import logging
 from tqdm import tqdm
 import pickle
 
 
-nlp = StanfordCoreNLP(r'../stanford-corenlp-full-2018-10-05', lang='zh', memory='8g')
+nlp = StanfordCoreNLP(r'/Users/heqi.song/project/stanford-corenlp-full-2018-10-05', lang='zh', memory='8g')
 
 def simple_test():
-
+    s = time.time()
     # nlp = StanfordCoreNLP(r'../stanford-corenlp-full-2016-10-31/', lang='zh', quiet=False, logging_level=logging.DEBUG)
     # sentence = 'Guangdong University of Foreign Studies (GDUFS) is located in Guangzhou.'
     sentence = '帮我订一张明天上午到深圳的机票'
-    print(nlp.ner(sentence))
+    print('Tokenize:', nlp.word_tokenize(sentence))
+    print('Part of Speech:', nlp.pos_tag(sentence))
+    print('Named Entities:', nlp.ner(sentence))
+    # print('Constituency Parsing:', nlp.parse(sentence))
+    # print('Dependency Parsing:', nlp.dependency_parse(sentence))
+    e = time.time()
+    print(e - s)
 
 
 def futher_test(need_parse=True, filename='corpus/example.test'):
@@ -91,5 +98,5 @@ def custom_test(filename='corpus/test'):
             fout.close()
         f.close()
 
-custom_test()
+simple_test()
 nlp.close()
